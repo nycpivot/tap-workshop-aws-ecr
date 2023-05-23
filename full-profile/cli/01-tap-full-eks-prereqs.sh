@@ -418,4 +418,4 @@ rm -rf tanzu-java-web-app
 git clone https://github.com/nycpivot/tanzu-java-web-app
 
 #INSTALL OOTB SUPPLY CHAIN - BASIC
-bash $HOME/tap-workshop-aws/full-profile/cli/supply-chain/01-ootb-basic.sh
+bash $HOME/tap-workshop-aws-ecr/full-profile/cli/supply-chain/01-ootb-basic.sh
