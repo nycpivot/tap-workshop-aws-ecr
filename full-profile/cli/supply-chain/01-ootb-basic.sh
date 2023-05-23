@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAP_VERSION=1.5.2-build.1
+TAP_VERSION=1.5.0
 GIT_CATALOG_REPOSITORY=tanzu-application-platform
 INSTALL_REGISTRY_HOSTNAME=registry.tanzu.vmware.com
 TARGET_TBS_REPO=tap-build-service
@@ -67,10 +67,18 @@ cnrs:
   domain_name: $FULL_DOMAIN
 excluded_packages:
   - policy.apps.tanzu.vmware.com
+  - controller.source.apps.tanzu.vmware.com
 EOF
 
 tanzu package install tap -p tap.tanzu.vmware.com -v $TAP_VERSION --values-file tap-values-full-ootb-basic.yaml -n tap-install
-#tanzu package install tap -p tap.tanzu.vmware.com -v $TAP_VERSION --values-file tap-values-full-ootb-basic.yaml -n tap-install --poll-timeout 30m0s
+echo
+
+rm source-controller-values.yaml
+cat <<EOF | tee source-controller-values.yaml
+aws_iam_role_arn: "eks.amazonaws.com/role-arn: arn:aws:iam::$AWS_ACCOUNT_ID:role/source-controller-manager"
+EOF
+
+tanzu package install source-controller -p controller.source.apps.tanzu.vmware.com -v 0.63 -n tap-install -f source-controller-values.yaml
 echo
 
 

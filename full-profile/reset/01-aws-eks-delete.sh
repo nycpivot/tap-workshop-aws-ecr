@@ -12,28 +12,22 @@ aws iam detach-role-policy \
 
 aws iam delete-role --role-name ${rolename}
 
-
-#DELETE IAM ECR ROLES
-aws iam delete-role-policy --role-name tap-build-service --policy-name tapBuildServicePolicy --no-cli-pager
-aws iam delete-role-policy --role-name tap-workload --policy-name tapWorkload --no-cli-pager
-
-aws iam delete-role --role-name tap-build-service --no-cli-pager
-aws iam delete-role --role-name tap-workload --no-cli-pager
-
-
 #DELETE ELBs
-classic_lb=$(aws elb describe-load-balancers | jq -r .LoadBalancerDescriptions[].LoadBalancerName)
+classic_lb1=$(aws elb describe-load-balancers | jq -r .LoadBalancerDescriptions[0].LoadBalancerName)
+classic_lb2=$(aws elb describe-load-balancers | jq -r .LoadBalancerDescriptions[1].LoadBalancerName)
 #network_lb=$(aws elbv2 describe-load-balancers | jq -r .LoadBalancers[].LoadBalancerArn)
 
-aws elb delete-load-balancer --load-balancer-name $classic_lb
+aws elb delete-load-balancer --load-balancer-name $classic_lb1
+aws elb delete-load-balancer --load-balancer-name $classic_lb2
 #aws elbv2 delete-load-balancer --load-balancer-arn $network_lb
 
-sleep 60
-
+sleep 30
 
 #DELETE IGWs
-aws ec2 describe-internet-gateways
+igw_id=$(aws ec2 describe-internet-gateways --query "InternetGateways[?Tags[?Value=='tap-full']].InternetGatewayId" --output text)
+aws ec2 delete-internet-gateway --internet-gateway-id $igw_id
 
+sleep 300
 
 #DELETE ECRs
 aws ecr delete-repository --repository-name tanzu-application-platform/tanzu-java-web-app-default --region $AWS_REGION --force
@@ -42,9 +36,7 @@ aws ecr delete-repository --repository-name tanzu-application-platform/tanzu-jav
 #aws ecr delete-repository --repository-name tap-images --region $AWS_REGION --force
 #aws ecr delete-repository --repository-name tap-build-service --region $AWS_REGION --force
 
-
 #DELETE VPC
-
 
 #DELETE STACK
 eksctl delete cluster --name $cluster_name

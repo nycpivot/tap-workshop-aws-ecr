@@ -12,7 +12,7 @@ echo $full_domain > /tmp/tap-full-domain
 export EKS_CLUSTER_NAME=tap-full
 export TANZU_CLI_NO_INIT=true
 export TANZU_VERSION=v0.28.1
-export TAP_VERSION=1.5.2-build.1
+export TAP_VERSION=1.5.0
 
 export CLI_FILENAME=tanzu-framework-linux-amd64-v0.28.1.tar
 export ESSENTIALS_FILENAME=tanzu-cluster-essentials-linux-amd64-1.5.0.tgz
@@ -418,4 +418,4 @@ rm -rf tanzu-java-web-app
 git clone https://github.com/nycpivot/tanzu-java-web-app
 
 #INSTALL OOTB SUPPLY CHAIN - BASIC
-bash $HOME/tap-workshop-aws-ecr/full-profile/cli/supply-chain/01-ootb-basic.sh
+# bash $HOME/tap-workshop-aws-ecr/full-profile/cli/supply-chain/01-ootb-basic.sh
