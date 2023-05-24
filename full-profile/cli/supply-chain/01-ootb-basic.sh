@@ -75,10 +75,11 @@ echo
 
 rm source-controller-values.yaml
 cat <<EOF | tee source-controller-values.yaml
-aws_iam_role_arn: "eks.amazonaws.com/role-arn: arn:aws:iam::$AWS_ACCOUNT_ID:role/source-controller-manager"
+aws_iam_role_arn: "eks.amazonaws.com/role-arn: arn:aws:iam::$AWS_ACCOUNT_ID:role/tap-workload"
 EOF
 
-tanzu package install source-controller -p controller.source.apps.tanzu.vmware.com -v 0.63 -n tap-install -f source-controller-values.yaml
+tanzu package install source-controller -p controller.source.apps.tanzu.vmware.com \
+  --values-file source-controller-values.yaml -v 0.63 -n tap-install
 echo
 
 

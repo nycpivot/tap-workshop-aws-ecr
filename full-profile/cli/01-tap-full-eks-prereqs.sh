@@ -96,6 +96,13 @@ cat <<EOF | tee aws-ebs-csi-driver-trust-policy.json
 }
 EOF
 
+aws iam detach-role-policy \
+    --role-name ${rolename} \
+    --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+    --no-cli-pager
+
+aws iam delete-role --role-name ${rolename}
+
 aws iam create-role \
   --role-name $rolename \
   --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json" \
@@ -303,6 +310,13 @@ cat <<EOF > workload-policy.json
     ]
 }
 EOF
+
+#DELETE IAM ECR ROLES
+aws iam delete-role-policy --role-name tap-build-service --policy-name tapBuildServicePolicy --no-cli-pager
+aws iam delete-role-policy --role-name tap-workload --policy-name tapWorkload --no-cli-pager
+
+aws iam delete-role --role-name tap-build-service --no-cli-pager
+aws iam delete-role --role-name tap-workload --no-cli-pager
 
 # Create the Build Service Role
 aws iam create-role --role-name tap-build-service --assume-role-policy-document file://build-service-trust-policy.json --no-cli-pager

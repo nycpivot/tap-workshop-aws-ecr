@@ -1,8 +1,13 @@
 #!/bin/bash
 
-read -p "AWS Access Key Id: " aws_access_key_id
+read -p "AWS Access Key: " aws_access_key
 read -p "AWS Secret Access Key: " aws_secret_access_key
-read -p "AWS Default Region: " aws_region_code
+read -p "AWS Default Region (us-east-1): " aws_region_code
+
+if [[ -z $aws_region_code ]]
+then
+    aws_region_code=us-east-1
+fi
 
 sudo apt update
 yes | sudo apt upgrade
