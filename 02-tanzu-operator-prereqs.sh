@@ -52,7 +52,7 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/d
 sudo mv /tmp/eksctl /usr/local/bin
 chmod +x /usr/local/bin/eksctl
 
-aws configure set aws_access_key_id $aws_access_key_id
+aws configure set aws_access_key_id $aws_access_key
 aws configure set aws_secret_access_key $aws_secret_access_key
 aws configure set default.region $aws_region_code
 
