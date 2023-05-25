@@ -423,13 +423,9 @@ tanzu package repository add tanzu-tap-repository \
   --url $IMGPKG_REGISTRY_HOSTNAME_1/$TARGET_TAP_REPO:$TAP_VERSION \
   --namespace tap-install
 
-#tanzu package repository get tanzu-tap-repository --namespace tap-install
-#tanzu package available list --namespace tap-install
-#tanzu package available list tap.tanzu.vmware.com --namespace tap-install
-
 #download sample app code
 rm -rf tanzu-java-web-app
 git clone https://github.com/nycpivot/tanzu-java-web-app
 
 #INSTALL OOTB SUPPLY CHAIN - BASIC
-# bash $HOME/tap-workshop-aws-ecr/full-profile/cli/supply-chain/01-ootb-basic.sh
+bash $HOME/tap-workshop-aws-ecr/full-profile/cli/supply-chain/01-ootb-basic.sh
